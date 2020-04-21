@@ -2,58 +2,73 @@
 #include <string>
 using namespace std;
 
-class tokenNode {
+class tokenNode 
+{
    public:
     string token;
     tokenNode *next;
 
-    tokenNode() {
+    tokenNode() 
+    {
         token = "";
         next = nullptr;
     }
 
-    tokenNode(string __token, tokenNode *__next = nullptr) {
+    tokenNode(string __token, tokenNode *__next = nullptr) 
+    {
         this->token = __token;
         this->next = __next;
     }
 };
 
-class list {
+class list 
+{
     tokenNode *head, *tail;
 
    public:
-    list() {
+    list() 
+    {
         head = tail = nullptr;
     }
 
-    void addToTail(string __token) {
-        if (this->head == nullptr) {
+    void addToTail(string __token) 
+    {
+        if (this->head == nullptr) 
+        {
             this->head = this->tail = new tokenNode(__token);
-        } else {
+        } 
+       else 
+       {
             this->tail->next = new tokenNode(__token);
             this->tail = this->tail->next;
-        }
+       }
     }
 
-    void display() {
+    void display() 
+    {
         tokenNode *temp = this->head;
-        while (temp != nullptr) {
+        while (temp != nullptr) 
+        {
             cout << "TOKEN: " << temp->token << endl;
             temp = temp->next;
         }
     }
 
-    ~list() {
+    ~list() 
+    {
         tokenNode *temp = nullptr;
-        while (this->head != nullptr) {
+        while (this->head != nullptr) 
+        {
             temp = this->head->next;
             delete this->head;
             this->head = temp;
         }
     }
+   
 };
 
-class CFG {
+class CFG 
+{
     list llist;
 
    public:
@@ -72,7 +87,8 @@ class CFG {
     }
 };
 
-int main(int argc, char const *argv[]) {
+int main(int argc, char const *argv[]) 
+{
     CFG machine;
     machine.addTokens();
     return 0;
