@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include<string.h>
 using namespace std;
 
 class tokenNode 
@@ -76,23 +77,26 @@ class CFG
    public:
     CFG() : Linked_List() {}
 
-    void Add_Tokens() 
+    void Add_Tokens( string Sentence ) 
     {
-        string array[] = 
-        {                
-            "I",
-            "prefer",
-            "a",
-            "morning",
-            "flight"
-        } ;
-
-        Linked_List.Add_To_Tail(array[0] , "Pronoun") ; // we will call type find function here later.
-        Linked_List.Add_To_Tail(array[1] , "Verb") ;
-        Linked_List.Add_To_Tail(array[2] , "Determiner") ;
-        Linked_List.Add_To_Tail(array[3] , "Noun") ;
-        Linked_List.Add_To_Tail(array[4] , "Noun") ;
-    
+        char TokenString[100] ;
+        strcpy( TokenString , Sentence.c_str()) ;
+        char *Token = strtok( TokenString , " "); 
+        string Word[25] ;
+        int i = 0 ;
+        while (Token != NULL) 
+        { 
+           Word[i] = Token ;
+           cout<<Word[i]<<endl;
+           Token = strtok(NULL, " "); 
+           i++ ;
+        } 
+        cout<<endl;
+        Linked_List.Add_To_Tail(Word[0] , "Pronoun") ; // we will call type find function here later.
+        Linked_List.Add_To_Tail(Word[1] , "Verb") ;
+        Linked_List.Add_To_Tail(Word[2] , "Determiner") ;
+        Linked_List.Add_To_Tail(Word[3] , "Noun") ;
+        Linked_List.Add_To_Tail(Word[4] , "Noun") ;
         Linked_List.Display() ;
     }
 } ;
@@ -101,7 +105,9 @@ class CFG
 
 int main(int argc, char const *argv[]) 
 {
+    string Sentence ;
+    getline(cin , Sentence) ;
     CFG Machine;
-    Machine.Add_Tokens();
+    Machine.Add_Tokens( Sentence );
     return 0;
 }
