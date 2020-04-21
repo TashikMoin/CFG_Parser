@@ -70,6 +70,20 @@ class List
    
 };
 
+int Total_Words( string Sentence )
+{
+    int i = 0 , Count = 0 ;
+    while( i < Sentence.length() )
+    {
+        if(Sentence[i] == ' ')
+        {
+            Count++ ;
+        }
+        i++ ;
+    }
+    return Count ;
+}
+
 class CFG 
 {
     List Linked_List;
@@ -79,10 +93,10 @@ class CFG
 
     void Add_Tokens( string Sentence ) 
     {
-        char TokenString[100] ;
+        char TokenString[Total_Words(Sentence) * 20 ] ;
         strcpy( TokenString , Sentence.c_str()) ;
         char *Token = strtok( TokenString , " "); 
-        string Word[25] ;
+        string Word[ Total_Words(Sentence) + 1 ] ;
         int i = 0 ;
         while (Token != NULL) 
         { 
