@@ -1,5 +1,6 @@
 #include<iostream>
 #include<string>
+#include<fstream>
 #include<string.h>
 using namespace std ;
 
@@ -15,6 +16,17 @@ int Total_Words( string S )
         i++ ;
     }
     return Count ;
+}
+
+void To_Upper_Case( string &Word )
+{
+    for( int i = 0 ; i < Word.length() ; ++i )
+    {
+        if( Word[i] >= 'a' && Word[i] <= 'z' )
+        {
+            Word[i] -= 32 ;
+        }
+    }
 }
 
 
@@ -38,245 +50,173 @@ class Word_Node
 
 class Context_Free_Grammar
 {
+    private :
+
+    protected :
 
     public :
     Word_Node *Sentence ;
+    int Sentence_Length ;
 
-    Context_Free_Grammar()
-    {}
-
-    Context_Free_Grammar( Word_Node *__Sentence )
+    bool Index_Check(int i) 
     {
-        this->Sentence = __Sentence ;
-    }
-
-
-    bool Index_Check(int *__i) 
-    {
-        if (*(__i) >= 5) 
+        if ( i >= this->Sentence_Length ) 
         {
             return false;
         }
         return true;
     }
 
-    bool ProNoun(string *__words, int *__i) 
+    string Find_Type( string __Word )
     {
-        if (Index_Check(__i)) 
+        fstream Reader ;
+        string Word ;
+        cout<<"\nBefore Upper Case : "<<__Word ;
+        To_Upper_Case(__Word) ;
+        cout<<"\nAfter Upper Case : "<<__Word ;
+        Reader.open("Nouns.txt" , ios::in ) ;
+        while( !Reader.eof() )
         {
-            cout << __words[*(__i)] << *(__i) << endl;
-            if (__words[*(__i)] == "I") 
+            getline(Reader , Word ) ;
+            cout<<"\nWord Read = "<<Word ;
+            To_Upper_Case(Word) ;
+            if( Word == __Word )
             {
-                (*__i)++;
-                return true;
-            } 
-            else 
-            {
-                return false;
+                Reader.close() ;
+                return "Noun" ;
             }
-        } 
-        else 
-        {
-            return false;
         }
-    }
-
-    bool Proper_Noun(string *__words, int *__i) 
-    {
-        return false;
-    }
-
-    bool Determiner(string *__words, int *__i) 
-    {
-        if (Index_Check(__i)) 
+        Reader.close() ;
+        Reader.open("Pronouns.txt" , ios::in ) ;
+        while( !Reader.eof() )
         {
-            cout << __words[*(__i)] << *(__i) << endl;
-            if (__words[*(__i)] == "a") 
+            getline(Reader , Word ) ;
+            To_Upper_Case(Word) ;
+            if( Word == __Word )
             {
-                (*__i)++;
-                return true;
-            } 
-            else 
-            {
-                return false;
+                Reader.close() ;
+                return "Pronoun" ;
             }
-        } 
-        else 
-        {
-            return false;
         }
-    }
-
-    bool Nominal(string *__words, int *__i) 
-    {
-        if (Index_Check(__i)) 
+        Reader.close() ;
+        Reader.open("Verbs.txt" , ios::in ) ;
+        while( !Reader.eof() )
         {
-            if (Noun(__words, __i)) 
+            getline(Reader , Word ) ;
+            To_Upper_Case(Word) ;
+            if( Word == __Word )
             {
-                if (Nominal(__words, __i)) 
-                {
-                    return true;
-                } 
-                else 
-                {
-                    (*__i)--;
-                }
-                return true;
-            } 
-            else 
-            {
-                return false;
+                Reader.close() ;
+                return "Verb" ;
             }
-        } 
-        else 
-        {
-            return false;
         }
-    }
-
-    bool Verb(string *__words, int *__i) 
-    {
-        if (Index_Check(__i)) 
+        Reader.close() ;
+        Reader.open("Propernouns.txt" , ios::in ) ;
+        while( !Reader.eof() )
         {
-            cout << __words[*(__i)] << *(__i) << endl;
-            if (__words[*(__i)] == "prefer") 
+            getline(Reader , Word ) ;
+            To_Upper_Case(Word) ;
+            if( Word == __Word )
             {
-                (*__i)++;
-                return true;
-            } 
-            else 
-            {
-                return false;
+                Reader.close() ;
+                return "Propernoun" ;
             }
-        } 
-        else 
-        {
-            return false;
         }
-    }
-
-    bool Noun(string *__words, int *__i) 
-    {
-        if (Index_Check(__i)) 
+        Reader.close() ;
+        Reader.open("Prepositions.txt" , ios::in ) ;
+        while( !Reader.eof() )
         {
-            cout << __words[*(__i)] << *(__i) << endl;
-            if (__words[*(__i)] == "morning" || __words[*(__i)] == "flight") 
+            getline(Reader , Word ) ;
+            To_Upper_Case(Word) ;
+            if( Word == __Word )
             {
-                (*__i)++;
-                return true;
-            } 
-            else 
-            {
-                return false;
+                Reader.close() ;
+                return "Preposition" ;
             }
-        } 
-        else 
-        {
-            return false;
         }
-    }
-
-    bool Preposition(string *__words, int *__i) 
-    {
-        return false;
-    }
-
-    bool NP(string *__words, int *__i) 
-    {
-        if (Index_Check(__i)) 
+        Reader.close() ;
+        Reader.open("Adjectives.txt" , ios::in ) ;
+        while( !Reader.eof() )
         {
-            if (ProNoun(__words, __i)) 
+            getline(Reader , Word ) ;
+            To_Upper_Case(Word) ;
+            if( Word == __Word )
             {
-                return true;
-            } 
-            else if (Proper_Noun(__words, __i)) 
-            {} 
-            else if (Determiner(__words, __i) && Nominal(__words, __i)) 
-            {
-                return true;
-            } 
-            else 
-            {
-                return false;
+                Reader.close() ;
+                return "Adjective" ;
             }
-        } 
-        else 
-        {
-            return false;
         }
-    }
-
-    bool VP(string *__words, int *__i) 
-    {
-        if (Index_Check(__i)) 
+        Reader.close() ;
+        Reader.open("Determiners.txt" , ios::in ) ;
+        while( !Reader.eof() )
         {
-            if (Verb(__words, __i)) 
+            getline(Reader , Word ) ;
+            To_Upper_Case(Word) ;
+            if( Word == __Word )
             {
-                if (NP(__words, __i)) 
-                {
-                    if (PP(__words, __i)) 
-                    {
-                        return true;
-                    } 
-                    else 
-                    {
-                        (*__i)--;
-                    }
-                    return true;
-                } 
-                else if (PP(__words, __i)) 
-                {
-                    return true;
-                } 
-                else 
-                {
-                    (*__i)--;
-                }
-                (*__i)++; 
-                return true;
-            } 
-            else 
-            {
-                return false;
+                Reader.close() ;
+                return "Determiner" ;
             }
-        } 
-        else 
-        {
-            return false;
         }
+        Reader.close() ;
+        Reader.open("Conjunctions.txt" , ios::in ) ;
+        while( !Reader.eof() )
+        {
+            getline(Reader , Word ) ;
+            To_Upper_Case(Word);
+            if( Word == __Word )
+            {
+                Reader.close() ;
+                return "Conjunction" ;
+            }
+        }
+        Reader.close() ;
+        system("cls") ;
+        cout<< " Invalid Word Type " ;
+        exit(1) ;
     }
 
-    bool PP(string *__words, int *__i) 
+    void Assign_Types()
     {
-        if (Preposition(__words, __i) && NP(__words, __i)) 
-        {} 
-        else 
+        string __Type ;
+        for( int i = 0 ; i < this->Sentence_Length ; ++i )
         {
-            return false;
+            __Type = Find_Type( this->Sentence[i].Word ) ;
+            To_Upper_Case(__Type) ;
+            this->Sentence[i].Type = __Type ;
         }
     }
 
-    void S() 
+    Context_Free_Grammar()
     {
-        int i = 0;
-        string words[] = 
-        {
-            "I",
-            "prefer",
-            "a",
-            "morning",
-            "flight"
-        } ;
-
-        if (NP(words, &i) && VP(words, &i)) 
-        {
-            cout << "PERFECT\n";
+        string _Sentence ;
+        getline( cin , _Sentence ) ;
+        this->Sentence_Length = Total_Words(_Sentence) + 1 ;
+        char TokenString[this->Sentence_Length * 20 ] ;
+        strcpy( TokenString , _Sentence.c_str()) ;
+        char *Token = strtok( TokenString , " "); 
+        this->Sentence = new Word_Node[this->Sentence_Length] ;
+        int i = 0 ;
+        while (Token != NULL) 
+        { 
+            this->Sentence[i].Word = Token ;
+            cout<<this->Sentence[i].Word<<endl;
+            Token = strtok(NULL, " "); 
+            i++ ;
         } 
-        else 
+        this->Assign_Types() ;
+        cout<<endl ;
+        for( int i = 0 ; i < this->Sentence_Length ; ++i )
         {
-            cout << "INVALID STRUCTURE\n";
+            cout<<"Word  =  "<<this->Sentence[i].Word<<"    Type  =  "<<this->Sentence[i].Type<<endl ;
         }
     }
+
+    ~Context_Free_Grammar()
+    {
+        delete[] this->Sentence ;
+    }
+
 
 } ;
 
@@ -284,22 +224,5 @@ class Context_Free_Grammar
 
 int main()
 {
-    string S ;
-    getline( cin , S ) ;
-    char TokenString[Total_Words(S) * 20 ] ;
-    strcpy( TokenString , S.c_str()) ;
-    char *Token = strtok( TokenString , " "); 
-    Word_Node Words[ Total_Words(S) + 1 ] ;
-    int i = 0 ;
-    while (Token != NULL) 
-    { 
-        Words[i].Word = Token ;
-        cout<<Words[i].Word<<endl;
-        Token = strtok(NULL, " "); 
-        i++ ;
-    } 
-    Context_Free_Grammar *Machine = new Context_Free_Grammar(Words) ;
-    
-
-
+    Context_Free_Grammar *Machine = new Context_Free_Grammar() ;
 }
