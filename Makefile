@@ -2,12 +2,11 @@ CC = g++
 
 all: CFG
 
-CFG: CFG-hassan.o
-	$(CC) CFG-hassan.o -o CFG-hassan
+CFG: Context_Free_Grammar.o
+	$(CC) Context_Free_Grammar.o -o Context_Free_Grammar
 
-CFG-hassan.o: CFG-hassan.cpp
-	$(CC) -c CFG-hassan.cpp
+Context_Free_Grammar.o: Context_Free_Grammar.cpp
+	$(CC) -c Context_Free_Grammar.cpp
 
 clean:
-	rm -rf *o CFG-hassan
-
+	rm -rf *o Context_Free_Grammar
