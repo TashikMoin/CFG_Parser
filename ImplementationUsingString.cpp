@@ -83,7 +83,7 @@ class Context_Free_Grammar
         {
             cout<<"Word  =  "<<this->Sentence[i].Word<<"    Type  =  "<<this->Sentence[i].Type<<endl ;
         }
-        if( Check_Sentence_Structure() )
+        if( Check_Sentence_Structure( ) )
         {
             cout<<"\nValid Sentence Structure Following All Grammar Rules" ;
         }
@@ -221,24 +221,40 @@ class Context_Free_Grammar
         }
     }
 
-    bool Check_Sentence_Structure( int i = 0 , int j = 0 , string &NP , string &VP , string &PP )
+    bool Check_Sentence_Structure(  )
     {
+        static int i = 0 ;
+        static int j = 0 ;
+        static string NP = "" ;
+        static string VP = "" ;
+        static string PP = "" ;
+        static bool NP = false ;
+        static bool VP = false ;
+        static bool PP = false ;
+        if( i == 0 )
+        {
+            system("cls") ;
+            cout<<"S\n" ;
+        }
         if( this->Sentence[i].Type == "PRONOUN" || this->Sentence[i].Type == "PROPERNOUN" || this->Sentence[i].Type == "DETERMINER")
         {
             if( this->Sentence[i].Type == "DETERMINER" && this->Sentence[i+1].Type == "NOUN" && this->Sentence[i+2].Type == "NOUN" )
             {
                 NP = NP + " " + this->Sentence[i].Word + " " + this->Sentence[i+1].Word + " " + this->Sentence[i+2].Word ;
-                Check_Sentence_Structure( i+3 , j , NP , VP , PP ) ;                
+                i += 3 ;
+                Check_Sentence_Structure( ) ;               
             }
             else if( this->Sentence[i].Type == "DETERMINER" && this->Sentence[i+1].Type == "NOUN" )
             {
                 NP = NP + " " + this->Sentence[i].Word + " " + this->Sentence[i+1].Word ;
-                Check_Sentence_Structure( i+2 , j , NP , VP , PP ) ;
+                i += 2 ;
+                Check_Sentence_Structure( ) ;
             }
             else
             {
                 NP = NP + " " + this->Sentence[i].Word ;
-                Check_Sentence_Structure( i+1 , j , NP , VP , PP ) ;
+                i += 1 ;
+                Check_Sentence_Structure( ) ;
             }
             return true ;
         }
@@ -246,7 +262,9 @@ class Context_Free_Grammar
         {
             if( VP == "" && PP == "" )
             {
-                NP = "" ;
+                i++ ; // So that previous call's VP,PP conditions can start execution after NP's last production is read.
+                cout<<endl<<NP ;
+                return false ;
             }
             else if ( NP != "" && VP != "" && PP == "" )
             {
@@ -259,7 +277,10 @@ class Context_Free_Grammar
                 NP = "" ;
             }
         }
-        
+
+
+        if( this->Sentence[i].Type == "PREPOSITION" )
+        return true ;
     }
 
 
