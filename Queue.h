@@ -34,8 +34,12 @@ class Queue
 			this->Rear = -1 ;
 		}
 		
-		void Enqueue( Production Data_ )
+		void Enqueue( string _Production_Name , string _Word , string _Type )
 		{
+			Production Data_ ;
+			Data_.Production_Name = _Production_Name ;
+			Data_.Type = _Type ;
+			Data_.Word = _Word ;
 			if( ( this->Rear + 1 ) % this->Size == this->Front )
 			{
 				cout<<"\nException Thrown : Queue Is Already Full !\n" ;
@@ -56,7 +60,7 @@ class Queue
 		{
 			if( this->Rear == this->Front  )
 			{
-				cout<<"\nException Thrown :Queue Is Empty !\n" ;
+				cout<<"\nException Thrown : Queue Is Empty !\n" ;
                 exit(1) ;
 			}
 			else
@@ -86,8 +90,8 @@ class Queue
 	        for( int i = this->Front ; i!=this->Rear + 1 ; i++ )
 	        {
 		        cout<<this->Data[i].Production_Name<<"  " ;
-				cout<<this->Data[i].Word<<"  " ;
 				cout<<this->Data[i].Type<<"  " ;
+				cout<<this->Data[i].Word<<"  \n" ;
         	}
 	        cout<<endl;
         }

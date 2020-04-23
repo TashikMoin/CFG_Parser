@@ -79,15 +79,12 @@ class Context_Free_Grammar
         } 
         this->Assign_Types() ;
         cout<<endl ;
-        Queue Track_Of_Production( this->Sentence_Length + 1 ) ;
-        for( int i = 0 ; i < this->Sentence_Length ; ++i )
-        {
-            i = this->Check_Sentence_Structure_For_NP( i , Track_Of_Production ) ;
-            i++ ;
-            i = this->Check_Sentence_Structure_For_VP( i , Track_Of_Production ) ;
-            i++ ;
-            i = this->Check_Sentence_Structure_For_PP( i , Track_Of_Production ) ;
-        }
+        Queue Track_Of_Production( this->Sentence_Length ) ;
+        i = 0 ;
+        i = this->Check_Sentence_Structure_For_NP( i , Track_Of_Production ) ;
+        i++ ;
+        i = this->Check_Sentence_Structure_For_VP( i , Track_Of_Production ) ;
+        Track_Of_Production.Print_Queue() ;
         
     }
 
@@ -224,7 +221,7 @@ class Context_Free_Grammar
             {
                 Nominal += this->Sentence[i].Word ;
                 Nominal += " " ;
-                // Push Into Queue this->Sentence[i].Word & Production Name
+                __Track_Of_Production.Enqueue("NOMINAL" , this->Sentence[i].Word , this->Sentence[i].Type ) ;
                 i++ ;
                 return Check_Sentence_Structure_For_Nominal( i , __Track_Of_Production ) ;
             }
@@ -242,7 +239,7 @@ class Context_Free_Grammar
             {
                     NP += this->Sentence[i].Word ;
                     NP += " " ;
-                    // Push Into Queue this->Sentence[i].Word & Production Name
+                    __Track_Of_Production.Enqueue("NP" , this->Sentence[i].Word , this->Sentence[i].Type ) ;
                     i++ ;
                     return Check_Sentence_Structure_For_NP( i , __Track_Of_Production ) ;    
             }
@@ -250,15 +247,14 @@ class Context_Free_Grammar
             {
                 NP += this->Sentence[i].Word ;
                 NP += " " ;
-                // Push Into Queue this->Sentence[i].Word & Production Name
-                i++ ;
-                return Check_Sentence_Structure_For_NP( i , __Track_Of_Production ) ;
+                __Track_Of_Production.Enqueue("NP" , this->Sentence[i].Word , this->Sentence[i].Type ) ;
+                return i ;
             }
             if( this->Sentence[i].Type == "DETERMINER" )
             {
                 NP += this->Sentence[i].Word ;
                 NP += " " ;
-                // Push Into Queue this->Sentence[i].Word & Production Name
+                __Track_Of_Production.Enqueue("NP" , this->Sentence[i].Word , this->Sentence[i].Type ) ;
                 i++ ;
                 return Check_Sentence_Structure_For_Nominal( i , __Track_Of_Production ) ;               
             }
@@ -277,7 +273,7 @@ class Context_Free_Grammar
             {
                 PP += this->Sentence[i].Word ;
                 PP += " " ;
-                // Push Into Queue this->Sentence[i].Word & Production Name
+                __Track_Of_Production.Enqueue("PP" , this->Sentence[i].Word , this->Sentence[i].Type ) ;
                 i++ ;
                 return Check_Sentence_Structure_For_NP( i , __Track_Of_Production ) ;
             }
@@ -296,7 +292,7 @@ class Context_Free_Grammar
             {
                 VP += this->Sentence[i].Word ;
                 VP += " " ;
-                // Push Into Queue this->Sentence[i].Word & Production Name
+                __Track_Of_Production.Enqueue("VP" , this->Sentence[i].Word , this->Sentence[i].Type ) ;
                 return i ;
             }
 
@@ -304,7 +300,7 @@ class Context_Free_Grammar
             {
                 VP += this->Sentence[i].Word ;
                 VP += " " ;
-                // Push Into Queue this->Sentence[i].Word & Production Name
+                __Track_Of_Production.Enqueue("VP" , this->Sentence[i].Word , this->Sentence[i].Type ) ;
                 i++ ;
                 return Check_Sentence_Structure_For_PP( i , __Track_Of_Production ) ;
             }
@@ -313,7 +309,7 @@ class Context_Free_Grammar
             {
                 VP += this->Sentence[i].Word ;
                 VP += " " ;
-                // Push Into Queue this->Sentence[i].Word & Production Name
+                __Track_Of_Production.Enqueue("VP" , this->Sentence[i].Word , this->Sentence[i].Type ) ;
                 i++ ;
                 return Check_Sentence_Structure_For_NP( i , __Track_Of_Production ) ;
             }
