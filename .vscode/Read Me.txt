@@ -1,0 +1,1 @@
+Remember to set path inside launch.json , task.json files according to the MinGW64 folder in C drive
