@@ -84,7 +84,16 @@ class Context_Free_Grammar
         i = this->Check_Sentence_Structure_For_NP( i , Track_Of_Production ) ;
         i++ ;
         i = this->Check_Sentence_Structure_For_VP( i , Track_Of_Production ) ;
-        Track_Of_Production.Print_Queue() ;
+        if( i < 0 )
+        {
+            cout<<"\nInvalid Structure" ;
+        }
+        else
+        {
+            cout<<"\nValid Structure" ;
+            Track_Of_Production.Print_Queue() ;
+        }
+        
         
     }
 
@@ -225,6 +234,7 @@ class Context_Free_Grammar
                 i++ ;
                 return Check_Sentence_Structure_For_Nominal( i , __Track_Of_Production ) ;
             }
+            return -1 ;
         }
         i-- ;
         return i ;
@@ -258,6 +268,7 @@ class Context_Free_Grammar
                 i++ ;
                 return Check_Sentence_Structure_For_Nominal( i , __Track_Of_Production ) ;               
             }
+            return -1 ;
         }
         i-- ;
         return i ;
@@ -277,6 +288,7 @@ class Context_Free_Grammar
                 i++ ;
                 return Check_Sentence_Structure_For_NP( i , __Track_Of_Production ) ;
             }
+            return -1 ;
         }
         i-- ;
         return i ;
@@ -313,9 +325,7 @@ class Context_Free_Grammar
                 i++ ;
                 return Check_Sentence_Structure_For_NP( i , __Track_Of_Production ) ;
             }
-
-
-
+            return -1 ;
         }
         i-- ;
         return i ;
