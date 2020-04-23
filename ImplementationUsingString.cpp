@@ -2,6 +2,7 @@
 #include<string>
 #include<fstream>
 #include<string.h>
+#include"Queue.h"
 using namespace std ;
 
 int Total_Words( string S )
@@ -73,15 +74,19 @@ class Context_Free_Grammar
         while (Token != NULL) 
         { 
             this->Sentence[i].Word = Token ;
-            cout<<this->Sentence[i].Word<<endl;
             Token = strtok(NULL, " "); 
             i++ ;
         } 
         this->Assign_Types() ;
         cout<<endl ;
+        Queue Track_Of_Production( this->Sentence_Length + 1 ) ;
         for( int i = 0 ; i < this->Sentence_Length ; ++i )
         {
-            cout<<"Word  =  "<<this->Sentence[i].Word<<"    Type  =  "<<this->Sentence[i].Type<<endl ;
+            i = this->Check_Sentence_Structure_For_NP( i , Track_Of_Production ) ;
+            i++ ;
+            i = this->Check_Sentence_Structure_For_VP( i , Track_Of_Production ) ;
+            i++ ;
+            i = this->Check_Sentence_Structure_For_PP( i , Track_Of_Production ) ;
         }
         
     }
@@ -96,14 +101,11 @@ class Context_Free_Grammar
     {
         fstream Reader ;
         string Word ;
-        cout<<"\nBefore Upper Case : "<<__Word ;
         To_Upper_Case(__Word) ;
-        cout<<"\nAfter Upper Case : "<<__Word ;
         Reader.open("Nouns.txt" , ios::in ) ;
         while( !Reader.eof() )
         {
             getline(Reader , Word ) ;
-            cout<<"\nWord Read = "<<Word ;
             To_Upper_Case(Word) ;
             if( Word == __Word )
             {
@@ -213,7 +215,7 @@ class Context_Free_Grammar
         }
     }
 
-    int Check_Sentence_Structure_For_Nominal( int i )
+    int Check_Sentence_Structure_For_Nominal( int i , Queue &__Track_Of_Production )
     {
         if( i < this->Sentence_Length )
         {
@@ -224,58 +226,49 @@ class Context_Free_Grammar
                 Nominal += " " ;
                 // Push Into Queue this->Sentence[i].Word & Production Name
                 i++ ;
-                return Check_Sentence_Structure_For_Nominal( i ) ;
+                return Check_Sentence_Structure_For_Nominal( i , __Track_Of_Production ) ;
             }
         }
-        else
-        {
-            i-- ;
-            return i ;
-        }
+        i-- ;
+        return i ;
     }
 
-    int Check_Sentence_Structure_For_NP( int i  )
+    int Check_Sentence_Structure_For_NP( int i , Queue &__Track_Of_Production )
     {
         if( i < this->Sentence_Length )
         {
             string NP = "" ;
-            if( this->Sentence[i+1].Type == "PREPOSITION" )
+            if( this->Sentence[i-1].Type == "PREPOSITION" )
             {
                     NP += this->Sentence[i].Word ;
                     NP += " " ;
                     // Push Into Queue this->Sentence[i].Word & Production Name
                     i++ ;
-                    return Check_Sentence_Structure_For_PP( i ) ;    
+                    return Check_Sentence_Structure_For_NP( i , __Track_Of_Production ) ;    
             }
-            if( this->Sentence[i].Type == "PRONOUN" || this->Sentence[i].Type == "PROPERNOUN" || this->Sentence[i].Type == "DETERMINER")
+            if( this->Sentence[i].Type == "PRONOUN" || this->Sentence[i].Type == "PROPERNOUN" )
             {
-                if( this->Sentence[i].Type == "DETERMINER" )
-                {
-                    NP += this->Sentence[i].Word ;
-                    NP += " " ;
-                    // Push Into Queue this->Sentence[i].Word & Production Name
-                    i++ ;
-                    return Check_Sentence_Structure_For_Nominal( i ) ;               
-                }
-                else
-                {
-                    NP += this->Sentence[i].Word ;
-                    NP += " " ;
-                    // Push Into Queue this->Sentence[i].Word & Production Name
-                    i++ ;
-                    return Check_Sentence_Structure_For_NP( i ) ;
-                }
+                NP += this->Sentence[i].Word ;
+                NP += " " ;
+                // Push Into Queue this->Sentence[i].Word & Production Name
+                i++ ;
+                return Check_Sentence_Structure_For_NP( i , __Track_Of_Production ) ;
+            }
+            if( this->Sentence[i].Type == "DETERMINER" )
+            {
+                NP += this->Sentence[i].Word ;
+                NP += " " ;
+                // Push Into Queue this->Sentence[i].Word & Production Name
+                i++ ;
+                return Check_Sentence_Structure_For_Nominal( i , __Track_Of_Production ) ;               
             }
         }
-        else
-        {
-            i-- ;
-            return i ;
-        }
+        i-- ;
+        return i ;
     }
 
 
-    int Check_Sentence_Structure_For_PP( int i )
+    int Check_Sentence_Structure_For_PP( int i , Queue &__Track_Of_Production )
     {
         if( i < this->Sentence_Length )
         {
@@ -286,18 +279,15 @@ class Context_Free_Grammar
                 PP += " " ;
                 // Push Into Queue this->Sentence[i].Word & Production Name
                 i++ ;
-                return Check_Sentence_Structure_For_NP( i ) ;
+                return Check_Sentence_Structure_For_NP( i , __Track_Of_Production ) ;
             }
         }
-        else
-        {
-            i-- ;
-            return i ;
-        }
+        i-- ;
+        return i ;
     }
 
 
-    int Check_Sentence_Structure_For_VP( int i )
+    int Check_Sentence_Structure_For_VP( int i , Queue &__Track_Of_Production )
     {
         if( i < this->Sentence_Length )
         {
@@ -316,26 +306,23 @@ class Context_Free_Grammar
                 VP += " " ;
                 // Push Into Queue this->Sentence[i].Word & Production Name
                 i++ ;
-                return Check_Sentence_Structure_For_PP( i ) ;
+                return Check_Sentence_Structure_For_PP( i , __Track_Of_Production ) ;
             }
 
-            if( this->Sentence[i].Type == "VERB" && i != this->Sentence_Length - 1 )
+            if( this->Sentence[i].Type == "VERB" )
             {
                 VP += this->Sentence[i].Word ;
                 VP += " " ;
                 // Push Into Queue this->Sentence[i].Word & Production Name
                 i++ ;
-                return Check_Sentence_Structure_For_NP( i ) ;
+                return Check_Sentence_Structure_For_NP( i , __Track_Of_Production ) ;
             }
 
 
 
         }
-        else
-        {
-            i-- ;
-            return i ;
-        }
+        i-- ;
+        return i ;
     }
 
 
