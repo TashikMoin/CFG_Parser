@@ -88,6 +88,10 @@ class Context_Free_Grammar
         i = this->Check_Sentence_Structure_For_NP( i , Track_Of_Production ) ;
         i++ ;
         i = this->Check_Sentence_Structure_For_VP( i , Track_Of_Production ) ;
+        i++ ;
+        i = this->Check_Sentence_Structure_For_PP( i , Track_Of_Production ) ;
+        i++ ;
+        i = this->Check_Sentence_Structure_For_Nominal( i , Track_Of_Production ) ;
         if( i < 0 )
         {
             cout<<"\nInvalid Structure" ;
