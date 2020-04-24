@@ -79,6 +79,10 @@ class Context_Free_Grammar
         } 
         this->Assign_Types() ;
         cout<<endl ;
+        for( int i = 0 ; i < this->Sentence_Length ; ++i )
+        {
+            cout<<"Word = "<<this->Sentence[i].Word<<"   Type = "<<this->Sentence[i].Type<<endl ;
+        }
         Queue Track_Of_Production( this->Sentence_Length ) ;
         i = 0 ;
         i = this->Check_Sentence_Structure_For_NP( i , Track_Of_Production ) ;
@@ -166,14 +170,6 @@ class Context_Free_Grammar
         if( i < this->Sentence_Length )
         {
             string NP = "" ;
-            if( this->Sentence[i-1].Type == "PREPOSITION" )
-            {
-                    NP += this->Sentence[i].Word ;
-                    NP += " " ;
-                    __Track_Of_Production.Enqueue("NP" , this->Sentence[i].Word , this->Sentence[i].Type ) ;
-                    i++ ;
-                    return Check_Sentence_Structure_For_NP( i , __Track_Of_Production ) ;    
-            }
             if( this->Sentence[i].Type == "PRONOUN" || this->Sentence[i].Type == "PROPERNOUN" )
             {
                 NP += this->Sentence[i].Word ;
@@ -188,6 +184,14 @@ class Context_Free_Grammar
                 __Track_Of_Production.Enqueue("NP" , this->Sentence[i].Word , this->Sentence[i].Type ) ;
                 i++ ;
                 return Check_Sentence_Structure_For_Nominal( i , __Track_Of_Production ) ;               
+            }
+            if( this->Sentence[i-1].Type == "PREPOSITION" )
+            {
+                    NP += this->Sentence[i].Word ;
+                    NP += " " ;
+                    __Track_Of_Production.Enqueue("NP" , this->Sentence[i].Word , this->Sentence[i].Type ) ;
+                    i++ ;
+                    return Check_Sentence_Structure_For_NP( i , __Track_Of_Production ) ;    
             }
             return -1 ;
         }
@@ -209,7 +213,6 @@ class Context_Free_Grammar
                 i++ ;
                 return Check_Sentence_Structure_For_NP( i , __Track_Of_Production ) ;
             }
-            return -1 ;
         }
         i-- ;
         return i ;
