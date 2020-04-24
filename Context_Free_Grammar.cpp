@@ -108,102 +108,23 @@ class Context_Free_Grammar
         fstream Reader ;
         string Word ;
         To_Upper_Case(__Word) ;
-        Reader.open("Nouns.txt" , ios::in ) ;
-        while( !Reader.eof() )
+        string File_Names[8] = { "Nouns.txt" , "Pronouns.txt" , "Verbs.txt" , "Propernouns.txt" , "Prepositions.txt" , "Adjectives.txt" , "Determiners.txt" , "Conjunctions.txt" } ;
+        string Corpuses[8] = { "Noun" , "Pronoun" , "Verb" , "Propernoun" , "Preposition" , "Adjective" , "Determiner" , "Conjunction" } ;
+        for( int i = 0 ; i < 8 ; ++i )
         {
-            getline(Reader , Word ) ;
-            To_Upper_Case(Word) ;
-            if( Word == __Word )
+            Reader.open( File_Names[i] , ios::in ) ;
+            while( !Reader.eof() )
             {
-                Reader.close() ;
-                return "Noun" ;
+                getline(Reader , Word ) ;
+                To_Upper_Case(Word) ;
+                if( Word == __Word )
+                {
+                    Reader.close() ;
+                    return Corpuses[i] ;
+                }
             }
+            Reader.close() ;
         }
-        Reader.close() ;
-        Reader.open("Pronouns.txt" , ios::in ) ;
-        while( !Reader.eof() )
-        {
-            getline(Reader , Word ) ;
-            To_Upper_Case(Word) ;
-            if( Word == __Word )
-            {
-                Reader.close() ;
-                return "Pronoun" ;
-            }
-        }
-        Reader.close() ;
-        Reader.open("Verbs.txt" , ios::in ) ;
-        while( !Reader.eof() )
-        {
-            getline(Reader , Word ) ;
-            To_Upper_Case(Word) ;
-            if( Word == __Word )
-            {
-                Reader.close() ;
-                return "Verb" ;
-            }
-        }
-        Reader.close() ;
-        Reader.open("Propernouns.txt" , ios::in ) ;
-        while( !Reader.eof() )
-        {
-            getline(Reader , Word ) ;
-            To_Upper_Case(Word) ;
-            if( Word == __Word )
-            {
-                Reader.close() ;
-                return "Propernoun" ;
-            }
-        }
-        Reader.close() ;
-        Reader.open("Prepositions.txt" , ios::in ) ;
-        while( !Reader.eof() )
-        {
-            getline(Reader , Word ) ;
-            To_Upper_Case(Word) ;
-            if( Word == __Word )
-            {
-                Reader.close() ;
-                return "Preposition" ;
-            }
-        }
-        Reader.close() ;
-        Reader.open("Adjectives.txt" , ios::in ) ;
-        while( !Reader.eof() )
-        {
-            getline(Reader , Word ) ;
-            To_Upper_Case(Word) ;
-            if( Word == __Word )
-            {
-                Reader.close() ;
-                return "Adjective" ;
-            }
-        }
-        Reader.close() ;
-        Reader.open("Determiners.txt" , ios::in ) ;
-        while( !Reader.eof() )
-        {
-            getline(Reader , Word ) ;
-            To_Upper_Case(Word) ;
-            if( Word == __Word )
-            {
-                Reader.close() ;
-                return "Determiner" ;
-            }
-        }
-        Reader.close() ;
-        Reader.open("Conjunctions.txt" , ios::in ) ;
-        while( !Reader.eof() )
-        {
-            getline(Reader , Word ) ;
-            To_Upper_Case(Word);
-            if( Word == __Word )
-            {
-                Reader.close() ;
-                return "Conjunction" ;
-            }
-        }
-        Reader.close() ;
         system("cls") ;
         cout<< " Invalid Word Type " ;
         exit(1) ;
