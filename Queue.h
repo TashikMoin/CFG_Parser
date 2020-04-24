@@ -86,12 +86,25 @@ class Queue
 
 		void Print_Queue( )
         {
+			string Output = "" ;
 			cout<<endl ;
+			cout<<" S\n" ;
 	        for( int i = this->Front ; i!=this->Rear + 1 ; i++ )
 	        {
-		        cout<<this->Data[i].Production_Name<<"  " ;
-				cout<<this->Data[i].Type<<"  " ;
-				cout<<this->Data[i].Word<<"  \n" ;
+				if( Output == "" )
+				{
+					cout<<Output<<" "<<this->Data[i].Production_Name<<" VP"<<endl
+				    <<Output<<" "<<this->Data[i].Type<<" VP"<<endl 
+				    <<Output<<" "<<this->Data[i].Word<<" VP"<<endl ;
+				}
+				else
+				{
+					cout<<Output<<" "<<this->Data[i].Production_Name<<endl
+				    <<Output<<" "<<this->Data[i].Type<<endl 
+				    <<Output<<" "<<this->Data[i].Word<<endl ;
+				}
+				
+				Output = Output + " " + this->Data[i].Word ;
         	}
 	        cout<<endl;
         }

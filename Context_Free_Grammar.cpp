@@ -79,10 +79,6 @@ class Context_Free_Grammar
         } 
         this->Assign_Types() ;
         cout<<endl ;
-        for( int i = 0 ; i < this->Sentence_Length ; ++i )
-        {
-            cout<<"Word = "<<this->Sentence[i].Word<<"   Type = "<<this->Sentence[i].Type<<endl ;
-        }
         Queue Track_Of_Production( this->Sentence_Length ) ;
         i = 0 ;
         i = this->Check_Sentence_Structure_For_NP( i , Track_Of_Production ) ;
@@ -98,7 +94,7 @@ class Context_Free_Grammar
         }
         else
         {
-            cout<<"\nValid Structure" ;
+            cout<<"\n Valid Structure\n" ;
             Track_Of_Production.Print_Queue() ;
         }
         
