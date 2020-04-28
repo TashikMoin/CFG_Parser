@@ -208,10 +208,8 @@ class Context_Free_Grammar
                     i++ ;
                     return Check_Sentence_Structure_For_NP( i , __Track_Of_Production ) ;    
             }
-            return -1 ;
         }
-        i-- ;
-        return i ;
+        return -1 ;
     }
 
 
