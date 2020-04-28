@@ -82,21 +82,21 @@ class Context_Free_Grammar
         Queue Track_Of_Production( this->Sentence_Length ) ;
         i = 0 ;
         i = this->Check_Sentence_Structure_For_NP( i , Track_Of_Production ) ;
-        i++ ;
-        i = this->Check_Sentence_Structure_For_VP( i , Track_Of_Production ) ;
-        i++ ;
-        i = this->Check_Sentence_Structure_For_PP( i , Track_Of_Production ) ;
-        i++ ;
-        i = this->Check_Sentence_Structure_For_Nominal( i , Track_Of_Production ) ;
-        if( i < 0 )
+        if( Check_If_True(i) )
         {
-            cout<<"\nInvalid Structure" ;
+            i = this->Check_Sentence_Structure_For_VP( i , Track_Of_Production ) ;
         }
-        else
+        if( Check_If_True(i) )
         {
-            cout<<"\n Valid Structure\n" ;
-            Track_Of_Production.Print_Queue() ;
+            i = this->Check_Sentence_Structure_For_PP( i , Track_Of_Production ) ;
         }
+        if( Check_If_True(i) )
+        {
+            i = this->Check_Sentence_Structure_For_Nominal( i , Track_Of_Production ) ;
+        }
+        
+        cout<<"\n Valid Structure\n" ;
+        Track_Of_Production.Print_Queue() ;
         
         
     }
@@ -104,6 +104,17 @@ class Context_Free_Grammar
     ~Context_Free_Grammar()
     {
         delete[] this->Sentence ;
+    }
+
+    bool Check_If_True( int &i )
+    {
+        if( i < 0 )
+        {
+            cout<<"\nInvalid Structure" ;
+            exit(1) ;
+        }
+        i++ ;
+        return true ;
     }
 
 
@@ -159,6 +170,10 @@ class Context_Free_Grammar
                 i++ ;
                 return Check_Sentence_Structure_For_Nominal( i , __Track_Of_Production ) ;
             }
+
+        }
+        if( this->Sentence[i-1].Type == "DETERMINER" && this->Sentence[i].Type != "NOUN" )
+        {
             return -1 ;
         }
         i-- ;
@@ -249,13 +264,9 @@ class Context_Free_Grammar
                 i++ ;
                 return Check_Sentence_Structure_For_NP( i , __Track_Of_Production ) ;
             }
-            return -1 ;
         }
-        i-- ;
-        return i ;
+        return -1 ;
     }
-
-
 
 
 } ;
