@@ -94,14 +94,12 @@ class Queue
 				if( Output == "" )
 				{
 					cout<<Output<<" "<<this->Data[i].Production_Name<<" VP"<<endl
-				    <<Output<<" "<<this->Data[i].Type<<" VP"<<endl 
-				    <<Output<<" "<<this->Data[i].Word<<" VP"<<endl ;
+				    <<Output<<" "<<this->Data[i].Type<<" VP"<<endl ;
 				}
 				else
 				{
 					cout<<Output<<" "<<this->Data[i].Production_Name<<endl
-				    <<Output<<" "<<this->Data[i].Type<<endl 
-				    <<Output<<" "<<this->Data[i].Word<<endl ;
+				    <<Output<<" "<<this->Data[i].Type<<endl ;
 				}
 				
 				Output = Output + " " + this->Data[i].Word ;
