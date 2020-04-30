@@ -89,7 +89,8 @@ class Queue
 			string Output = "" ;
 			cout<<endl ;
 			cout<<" S\n" ;
-	        for( int i = this->Front ; i!=this->Rear + 1 ; i++ )
+			int i = this->Front ;
+	        while(i!=this->Rear)
 	        {
 				if( Output == "" )
 				{
@@ -99,11 +100,15 @@ class Queue
 				else
 				{
 					cout<<Output<<" "<<this->Data[i].Production_Name<<endl
-				    <<Output<<" "<<this->Data[i].Type<<endl ;
+				    <<Output<<" "<<this->Data[i].Type<<" "<<this->Data[i+1].Production_Name<<endl ;
 				}
 				
 				Output = Output + " " + this->Data[i].Word ;
+				++i ;
         	}
-	        cout<<endl;
+				cout<<Output<<" "<<this->Data[i].Production_Name<<endl
+				<<Output<<" "<<this->Data[i].Type<<endl ;
+				Output = Output + " " + this->Data[i].Word ;
+				cout<<Output<<endl ;
         }
 } ;
