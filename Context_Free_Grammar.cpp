@@ -155,6 +155,13 @@ class Context_Free_Grammar
             To_Upper_Case(__Type) ;
             this->Sentence[i].Type = __Type ;
         }
+        for( int i = 0 ; i < this->Sentence_Length - 1 ; ++i )
+        {
+            if( this->Sentence[i].Type == "NOUN" && this->Sentence[i+1].Type == "NOUN")
+            {
+                this->Sentence[i].Type = "NOUN NOMINAL" ;
+            }
+        }
     }
 
     int Check_Sentence_Structure_For_Nominal( int i , Queue &__Track_Of_Production )
@@ -162,7 +169,7 @@ class Context_Free_Grammar
         if( i < this->Sentence_Length )
         {
             string Nominal = "" ;
-            if( this->Sentence[i].Type == "NOUN" )
+            if( this->Sentence[i].Type == "NOUN" || this->Sentence[i].Type == "NOUN NOMINAL" )
             {
                 Nominal += this->Sentence[i].Word ;
                 Nominal += " " ;
