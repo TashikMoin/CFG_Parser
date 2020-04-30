@@ -92,7 +92,17 @@ class Queue
 			int i = this->Front ;
 	        while(i!=this->Rear)
 	        {
-				if( Output == "" )
+				if( Output == "" && this->Data[i].Type == "DETERMINER" )
+				{
+					while( this->Data[i+1].Production_Name == "NOMINAL" )
+					{
+						cout<<Output<<" "<<this->Data[i].Production_Name<<" VP"<<endl
+				            <<Output<<" "<<this->Data[i].Type<<" VP"<<endl ;
+					    Output = Output + " " + this->Data[i].Word ;
+					    ++i ;
+					}
+				}
+				else if( Output == "" )
 				{
 					cout<<Output<<" "<<this->Data[i].Production_Name<<" VP"<<endl
 				    <<Output<<" "<<this->Data[i].Type<<" VP"<<endl ;
