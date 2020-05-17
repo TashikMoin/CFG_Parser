@@ -68,15 +68,15 @@ class Context_Free_Grammar
         this->Sentence_Length = Total_Words(_Sentence) + 1 ;
         char TokenString[this->Sentence_Length * 20 ] ;
         strcpy( TokenString , _Sentence.c_str()) ;
-        char *Token = strtok( TokenString , " "); 
+        char *Token = strtok( TokenString , " ");
         this->Sentence = new Word_Node[this->Sentence_Length] ;
         int i = 0 ;
-        while (Token != NULL) 
-        { 
+        while (Token != NULL)
+        {
             this->Sentence[i].Word = Token ;
-            Token = strtok(NULL, " "); 
+            Token = strtok(NULL, " ");
             i++ ;
-        } 
+        }
         this->Assign_Types() ;
         cout<<endl ;
         Queue Track_Of_Production( this->Sentence_Length ) ;
@@ -94,11 +94,11 @@ class Context_Free_Grammar
         {
             i = this->Check_Sentence_Structure_For_Nominal( i , Track_Of_Production ) ;
         }
-        
+
         cout<<"\n Valid Structure\n" ;
         Track_Of_Production.Print_Queue() ;
-        
-        
+
+
     }
 
     ~Context_Free_Grammar()
@@ -123,11 +123,13 @@ class Context_Free_Grammar
         fstream Reader ;
         string Word ;
         To_Upper_Case(__Word) ;
+
+        string dirTextInclude = "text/";
         string File_Names[8] = { "Nouns.txt" , "Pronouns.txt" , "Verbs.txt" , "Propernouns.txt" , "Prepositions.txt" , "Adjectives.txt" , "Determiners.txt" , "Conjunctions.txt" } ;
         string Corpuses[8] = { "Noun" , "Pronoun" , "Verb" , "Propernoun" , "Preposition" , "Adjective" , "Determiner" , "Conjunction" } ;
         for( int i = 0 ; i < 8 ; ++i )
         {
-            Reader.open( File_Names[i] , ios::in ) ;
+            Reader.open( dirTextInclude + File_Names[i] , ios::in ) ;
             while( !Reader.eof() )
             {
                 getline(Reader , Word ) ;
@@ -198,7 +200,7 @@ class Context_Free_Grammar
                 NP += " " ;
                 __Track_Of_Production.Enqueue("NP" , this->Sentence[i].Word , this->Sentence[i].Type ) ;
                 i++ ;
-                return Check_Sentence_Structure_For_Nominal( i , __Track_Of_Production ) ;               
+                return Check_Sentence_Structure_For_Nominal( i , __Track_Of_Production ) ;
             }
             if( this->Sentence[i-1].Type == "PREPOSITION" )
             {
@@ -206,7 +208,7 @@ class Context_Free_Grammar
                     NP += " " ;
                     __Track_Of_Production.Enqueue("NP" , this->Sentence[i].Word , this->Sentence[i].Type ) ;
                     i++ ;
-                    return Check_Sentence_Structure_For_NP( i , __Track_Of_Production ) ;    
+                    return Check_Sentence_Structure_For_NP( i , __Track_Of_Production ) ;
             }
         }
         return -1 ;

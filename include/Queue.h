@@ -1,3 +1,8 @@
+#ifndef QUEUE_H
+#define QUEUE_h
+
+#pragma once
+
 #include<iostream>
 #include<fstream>
 using namespace std ;
@@ -33,7 +38,7 @@ class Queue
 			this->Front = -1 ;
 			this->Rear = -1 ;
 		}
-		
+
 		void Enqueue( string _Production_Name , string _Word , string _Type )
 		{
 			Production Data_ ;
@@ -53,7 +58,7 @@ class Queue
                     this->Front = 0 ;
                 }
 			}
-			
+
 		}
 
 		Production Dequeue_From_Front()
@@ -68,7 +73,7 @@ class Queue
                 Production Temp = this->Data[ this->Front ] ;
 				this->Front = ( ( this->Front + 1 ) % ( this->Size ) ) ;
                 return Temp ;
-			}	
+			}
 		}
 
         void Dequeue_From_Rear()
@@ -112,7 +117,7 @@ class Queue
 					cout<<Output<<" "<<this->Data[i].Production_Name<<endl
 				    <<Output<<" "<<this->Data[i].Type<<" "<<this->Data[i+1].Production_Name<<endl ;
 				}
-				
+
 				Output = Output + " " + this->Data[i].Word ;
 				++i ;
         	}
@@ -122,3 +127,5 @@ class Queue
 				cout<<Output<<endl ;
         }
 } ;
+
+#endif
